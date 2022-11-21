@@ -411,7 +411,8 @@ function startGame() {
   isPlaying = false;
   sections[sectionIndex].classList.add("section_active")
   currentQuestionName.textContent = "*".repeat(birdsDataEn[sectionIndex][correctAnswerIndex].name.length);
-  currentQuestionImage.src = "https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg"
+  currentQuestionImage.src = "https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg";
+  choice.innerHTML = "Listen to the audio above. Try to guess the bird."
   loadAudio(birdsDataEn[sectionIndex][correctAnswerIndex].audio);
   updateOptions();
 }
@@ -579,6 +580,7 @@ function nextSection() {
   isPlaying = false;
   currentQuestionName.textContent = "*".repeat(birdsDataEn[sectionIndex][correctAnswerIndex].name.length);
   currentQuestionImage.src = "https://birds-quiz.netlify.app/static/media/bird.06a46938.jpg"
+  choice.innerHTML = "Listen to the audio above. Try to guess the bird."
 }
 
 
