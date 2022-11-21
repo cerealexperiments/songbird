@@ -303,8 +303,6 @@ const birdsDataEn = [
 
 
 
-
-
 // config
 let totalScore = 0;
 let currentScore = 5;
@@ -362,6 +360,7 @@ for(let i = 0; i < options.length; i++) {
       audio.play();
       addScore();
       currentScore = 5;
+      pauseAudio();
     } else {
       options[i].classList.add("option_wrong")
       let audio = new Audio("audio/wrong.mp3");
