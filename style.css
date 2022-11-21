@@ -11,6 +11,7 @@ body {
 .wrapper {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 .header {
     padding-top: 20px;
@@ -47,9 +48,6 @@ body {
     justify-content: space-between;
 }
 
-.game {
-
-}
 .game__score {
     text-align: end;
     padding-bottom: 20px;
@@ -69,6 +67,9 @@ body {
     text-align: center;
     flex: 1;
     padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .section_active {
     background-color: #29AB87;
@@ -237,7 +238,35 @@ body {
     border-radius: 5px;
 }
 
+@media(max-width: 768px) {
+    .wrapper {
+        max-width: 540px;
+    }
+    .options {
+        max-width: 100%;
+    }
+    .guess {
+        flex-direction: column;
+    }
+    .winning-screen__text-1 {
+        font-size: 48px;
+    }
+}
 
+@media (max-width: 520px) {
+    .current-question {
+        flex-direction: column;
+    }
+    .choice__content {
+        flex-direction: column;
+    }
+    .winning-screen__text-1 {
+        font-size: 32px;
+    }
+    .winning-screen__text-2 {
+         font-size: 18px;
+     }
+}
 
 
 
