@@ -311,6 +311,8 @@ let sectionIndex = 0;
 let correctAnswerIndex = getCorrectAnswerIndex();
 let isPlaying = false;
 let isPlayingChoice = false;
+let scored = false;
+let markedOptions = [];
 
 // dom selectors
 let gameWrapper = document.querySelector(".game").children[0];
@@ -411,16 +413,21 @@ for(let i = 0; i < options.length; i++) {
       let audio = new Audio("audio/correct.mp3");
       audio.volume = 0.2;
       audio.play();
-      addScore();
-      currentScore = 5;
+      if(scored === false) {
+        addScore();
+        scored = true;
+      }
       pauseAudio();
     } else {
       options[i].classList.add("option_wrong")
       let audio = new Audio("audio/wrong.mp3");
       audio.volume = 0.3;
       audio.play();
-      if(currentScore !== 0) {
-        currentScore--;
+      if(!markedOptions.includes(i)) {
+        if(currentScore !== 0) {
+          currentScore--;
+        }
+        markedOptions.push(i);
       }
     }
     choiceName.textContent = birdsDataEn[sectionIndex][i].name;
@@ -453,7 +460,7 @@ volumeSlider.addEventListener("change", changeVolume)
 
 function startGame() {
   totalScore = 0;
-  currentScore = 0;
+  currentScore = 5;
   sectionIndex = 0;
   correctAnswerIndex = getCorrectAnswerIndex();
   isPlaying = false;
@@ -620,6 +627,9 @@ function addScore() {
 }
 
 function nextSection() {
+  markedOptions = [];
+  scored = false;
+  currentScore = 5;
   sections[sectionIndex].classList.remove("section_active");
   sectionIndex++;
   console.log(`section index: ${sectionIndex}`);
