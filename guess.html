@@ -44,12 +44,16 @@
                         <div class="audio-player">
                             <div class="player">
                                 <img src="img/icons/play.svg" alt="play icon" class="player__playpause play">
-                                <input class="player__slider" type="range" min="1" max="100" value="0" id="current-question__slider">
+                                <input class="slider" type="range" min="1" max="100" value="0" id="current-question__slider">
                             </div>
                             <div class="durations">
                                 <p class="duration duration_current">00:00</p>
                                 <p class="duration duration_total">02:00</p>
                             </div>
+                        </div>
+                        <div class="volume">
+                            <p class="volume__label">Volume</p>
+                            <input class="volume__slider slider" type="range" min="1" max="100" value="50" id="volume__slider">
                         </div>
                     </div>
                 </div>

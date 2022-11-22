@@ -321,9 +321,11 @@ let score = document.querySelector(".game__score");
 let currentQuestionName = document.querySelector(".current-question__name");
 let currentQuestionImage = document.querySelector(".current-question__image");
 let currentQuestionPlaypause = document.querySelector(".player__playpause");
-let currentQuestionSlider = document.querySelector(".player__slider");
+let currentQuestionSlider = document.querySelector(".slider");
 let currentQuestionCurrentTime = document.querySelector(".duration_current");
 let currentQuestionTotalTime = document.querySelector(".duration_total");
+
+let volumeSlider = document.querySelector(".volume__slider");
 
 let choice = document.querySelector(".choice");
 
@@ -348,7 +350,7 @@ let choicePlaypause = document.createElement("img");
 choicePlaypause.src = "img/icons/play.svg";
 choicePlaypause.classList.add("choice__playpause", "play", "player__playpause");
 let choiceSlider = document.createElement("input");
-choiceSlider.classList.add("choice__slider", "player__slider");
+choiceSlider.classList.add("choice__slider", "slider");
 choiceSlider.type = "range";
 choiceSlider.value = 0;
 choiceSlider.min = 1;
@@ -446,7 +448,7 @@ currentQuestionSlider.addEventListener("change", slide)
 
 choiceSlider.addEventListener("change", slideChoice);
 
-
+volumeSlider.addEventListener("change", changeVolume)
 
 
 function startGame() {
@@ -537,6 +539,12 @@ function slide() {
 function slideChoice() {
   let slideTo = choiceAudio.duration * (choiceSlider.value / 100);
   choiceAudio.currentTime = slideTo;
+}
+
+function changeVolume() {
+  let newVolume = volumeSlider.value;
+  console.log(`volume: ${newVolume}`);
+  currentQuestionAudio.volume = newVolume / 100;
 }
 
 function setUpdate() {

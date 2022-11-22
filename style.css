@@ -103,7 +103,7 @@ body {
     align-items: center;
     gap: 10px;
 }
-.player__slider {
+.slider {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -113,7 +113,7 @@ body {
     transition: opacity 0.2s;
     width: 100%;
 }
-.player__slider::-webkit-slider-thumb {
+.slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 15px;
@@ -122,6 +122,10 @@ body {
     border: 3px solid #808080;
     cursor: pointer;
     border-radius: 100%;
+}
+
+.volume__slider {
+    max-width: 30%;
 }
 
 .player__playpause {
@@ -236,6 +240,12 @@ body {
     border: none;
     font-size: 16px;
     border-radius: 5px;
+}
+
+.volume {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 @media(max-width: 768px) {
