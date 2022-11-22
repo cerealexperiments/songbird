@@ -1,3 +1,4 @@
+//TODO: refactor everything with modules and webpack, fix player choice audio player, add something to home page, implement gallery and localization
 const birdsDataEn = [
   [
     {
@@ -309,7 +310,7 @@ let currentScore = 5;
 let sectionIndex = 0;
 let correctAnswerIndex = getCorrectAnswerIndex();
 let isPlaying = false;
-let isPlayingChoice = true;
+let isPlayingChoice = false;
 
 // dom selectors
 let gameWrapper = document.querySelector(".game").children[0];
@@ -325,9 +326,58 @@ let currentQuestionCurrentTime = document.querySelector(".duration_current");
 let currentQuestionTotalTime = document.querySelector(".duration_total");
 
 let choice = document.querySelector(".choice");
-let choiceSlider = document.querySelector(".choice__slider");
-let choiceCurrentTime = document.querySelector(".choice__duration_current");
-let choiceTotalTime = document.querySelector(".choice__duration_total");
+
+let choiceContent = document.createElement("div");
+choiceContent.classList.add("choice__content");
+let choiceImage = document.createElement("img");
+choiceImage.classList.add("choice__image");
+let choiceMain = document.createElement("div");
+choiceMain.classList.add("choice__main");
+
+choiceContent.append(choiceImage);
+
+let choiceName = document.createElement("p");
+choiceName.classList.add("choice__name");
+let choiceLatin = document.createElement("p");
+choiceLatin.classList.add("choice__latin");
+let choiceAudioPlayer = document.createElement("div");
+choiceAudioPlayer.classList.add("choice__audio-player", "audio-player");
+let choicePlayer = document.createElement("div");
+choicePlayer.classList.add("choice__player", "player");
+let choicePlaypause = document.createElement("img");
+choicePlaypause.src = "img/icons/play.svg";
+choicePlaypause.classList.add("choice__playpause", "play", "player__playpause");
+let choiceSlider = document.createElement("input");
+choiceSlider.classList.add("choice__slider", "player__slider");
+choiceSlider.type = "range";
+choiceSlider.value = 0;
+choiceSlider.min = 1;
+choiceSlider.max = 100;
+let choiceDurations = document.createElement("div");
+choiceDurations.classList.add("durations", "choice__durations");
+let choiceDurationTotal = document.createElement("p");
+choiceDurationTotal.classList.add("duration", "duration_current", "choice__duration_current");
+let choiceDurationCurrent = document.createElement("p");
+choiceDurationCurrent.classList.add("duration", "duration_total", "choice__duration_total");
+let choiceDescription = document.createElement("p");
+choiceDescription.classList.add("choice__description");
+
+choiceAudioPlayer.append(choicePlayer);
+choiceAudioPlayer.append(choiceDurations);
+
+choicePlayer.append(choicePlaypause);
+choicePlayer.append(choiceSlider);
+
+choiceDurations.append(choiceDurationCurrent);
+choiceDurations.append(choiceDurationTotal);
+
+choiceMain.append(choiceName);
+choiceMain.append(choiceLatin);
+choiceMain.append(choiceAudioPlayer);
+
+choiceContent.append(choiceMain);
+
+
 
 let options = document.querySelectorAll(".option");
 let nextButton = document.querySelector(".next");
@@ -349,6 +399,7 @@ currentQuestionPlaypause.addEventListener("click", () => {
 
 for(let i = 0; i < options.length; i++) {
   options[i].addEventListener("click", () => {
+    isPlayingChoice = false;
     if(i === correctAnswerIndex) {
       currentQuestionName.textContent = options[i].textContent;
       currentQuestionImage.src = birdsDataEn[sectionIndex][i].image;
@@ -370,34 +421,30 @@ for(let i = 0; i < options.length; i++) {
         currentScore--;
       }
     }
-    choice.innerHTML = `<div class="choice__content">
-                            <img src=${birdsDataEn[sectionIndex][i].image} alt="bird image" class="choice__image">
-                            <div class="choice__main">
-                                <p class="choice__name">${birdsDataEn[sectionIndex][i].name}</p>
-                                <p class="choice__latin">${birdsDataEn[sectionIndex][i].species}</p>
-                                <div class="audio-player">
-                                    <div class="player">
-                                        <img src="img/icons/play.svg" alt="play icon" class="player__playpause play">
-                                        <input class="player__slider choice__slider" type="range" min="1" max="100" value="0">
-                                    </div>
-                                    <div class="durations">
-                                        <p class="duration duration_current choice__duration_current">00:00</p>
-                                        <p class="duration duration_total choice__duration_total">02:00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="choice__description">
-                            ${birdsDataEn[sectionIndex][i].description}
-                        </p>`
+    choiceName.textContent = birdsDataEn[sectionIndex][i].name;
+    choiceLatin.textContent = birdsDataEn[sectionIndex][i].species;
+    choiceImage.src = birdsDataEn[sectionIndex][i].image;
+    loadAudioChoice(birdsDataEn[sectionIndex][i].audio);
+    choiceDescription.textContent = birdsDataEn[sectionIndex][i].description;
+    choice.replaceChildren(choiceContent, choiceDescription);
   })
 }
+
+choicePlaypause.addEventListener("click", () => {
+  if(!isPlayingChoice) {
+    playAudioChoice();
+  } else {
+    pauseAudioChoice();
+  }
+})
 
 nextButton.addEventListener("click", () => {
   nextSection();
 })
 
 currentQuestionSlider.addEventListener("change", slide)
+
+choiceSlider.addEventListener("change", slideChoice);
 
 
 
@@ -431,7 +478,9 @@ function loadAudio(audioUrl) {
 
 function loadAudioChoice(audioUrl) {
   clearInterval();
-  resetAudio();
+  resetAudioChoice();
+  choiceAudio.src = audioUrl;
+  let updateTimerChoice = setInterval(setUpdateChoice, 1000);
 }
 
 function resetAudio() {
@@ -440,33 +489,54 @@ function resetAudio() {
   currentQuestionTotalTime.textContent = "00:00";
 }
 
+function resetAudioChoice() {
+  choiceSlider.value = 0;
+  choiceDurationCurrent.textContent = "00:00";
+  choiceDurationTotal.textContent = '00:00';
+}
+
 function playAudio() {
   currentQuestionAudio.play();
   isPlaying = true;
-  console.log("playing");
   currentQuestionPlaypause.classList.remove("play");
   currentQuestionPlaypause.classList.add("pause");
   currentQuestionPlaypause.src = "img/icons/pause.svg";
 }
 
 function playAudioChoice() {
-  choiceAudio.play();
-
+  choiceAudio.play().then(() => {
+    console.log("choice audio playing");
+  });
+  isPlayingChoice = true;
+  choicePlaypause.classList.remove("play");
+  choicePlaypause.classList.add("pause");
+  choicePlaypause.src = "img/icons/pause.svg";
 }
 
 function pauseAudio() {
   currentQuestionAudio.pause();
   isPlaying = false;
-  console.log("paused");
   currentQuestionPlaypause.classList.remove("pause");
   currentQuestionPlaypause.classList.add("play");
   currentQuestionPlaypause.src = "img/icons/play.svg";
 }
 
+function pauseAudioChoice() {
+  choiceAudio.pause();
+  isPlaying = false;
+  choicePlaypause.classList.remove("pause");
+  choicePlaypause.classList.add("play");
+  choicePlaypause.src = "img/icons/play.svg";
+}
+
 function slide() {
   let slideTo = currentQuestionAudio.duration * (currentQuestionSlider.value / 100);
-  console.log(slideTo);
   currentQuestionAudio.currentTime = slideTo;
+}
+
+function slideChoice() {
+  let slideTo = choiceAudio.duration * (choiceSlider.value / 100);
+  choiceAudio.currentTime = slideTo;
 }
 
 function setUpdate() {
@@ -501,15 +571,15 @@ function setUpdate() {
 
 function setUpdateChoice() {
   let sliderPosition = 0;
-  if(!isNaN(currentQuestionAudio.duration)) {
-    sliderPosition = currentQuestionAudio.currentTime * (100 / currentQuestionAudio.duration);
-    currentQuestionSlider.value = sliderPosition;
+  if(!isNaN(choiceAudio.duration)) {
+    sliderPosition = choiceAudio.currentTime * (100 / choiceAudio.duration);
+    choiceSlider.value = sliderPosition;
 
-    let currentMinutes = Math.floor(currentQuestionAudio.currentTime / 60);
-    let currentSeconds = Math.floor(currentQuestionAudio.currentTime - currentMinutes * 60);
-    let durationMinutes = Math.floor(currentQuestionAudio.duration / 60);
-    let durationSeconds = Math.floor(currentQuestionAudio.duration - durationMinutes * 60);
-    console.log(`duration : ${currentQuestionAudio.duration}`);
+    let currentMinutes = Math.floor(choiceAudio.currentTime / 60);
+    let currentSeconds = Math.floor(choiceAudio.currentTime - currentMinutes * 60);
+    let durationMinutes = Math.floor(choiceAudio.duration / 60);
+    let durationSeconds = Math.floor(choiceAudio.duration - durationMinutes * 60);
+    console.log(`duration : ${choiceAudio.duration}`);
 
     if(currentSeconds < 10) {
       currentSeconds = "0" + currentSeconds;
@@ -524,8 +594,8 @@ function setUpdateChoice() {
       durationMinutes = "0" + durationMinutes;
     }
 
-    currentQuestionCurrentTime.textContent = currentMinutes + ":" + currentSeconds;
-    currentQuestionTotalTime.textContent = durationMinutes + ":" + durationSeconds;
+    choiceDurationCurrent.textContent = currentMinutes + ":" + currentSeconds;
+    choiceDurationTotal.textContent = durationMinutes + ":" + durationSeconds;
   }
 }
 
