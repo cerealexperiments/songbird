@@ -462,6 +462,7 @@ volumeSlider.addEventListener("change", changeVolume)
 
 function startGame() {
   totalScore = 0;
+  score.textContent = `Score: ${totalScore}`;
   currentScore = 5;
   sectionIndex = 0;
   correctAnswerIndex = getCorrectAnswerIndex();
