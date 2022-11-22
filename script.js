@@ -412,22 +412,24 @@ for(let i = 0; i < options.length; i++) {
       nextButton.classList.add("next_active");
       let audio = new Audio("audio/correct.mp3");
       audio.volume = 0.2;
-      audio.play();
       if(scored === false) {
+        audio.play();
         addScore();
         scored = true;
       }
       pauseAudio();
     } else {
-      options[i].classList.add("option_wrong")
-      let audio = new Audio("audio/wrong.mp3");
-      audio.volume = 0.3;
-      audio.play();
-      if(!markedOptions.includes(i)) {
-        if(currentScore !== 0) {
-          currentScore--;
+      if (!scored) {
+        if (!markedOptions.includes(i)) {
+          if (currentScore !== 0) {
+            currentScore--;
+          }
+          options[i].classList.add("option_wrong")
+          let audio = new Audio("audio/wrong.mp3");
+          audio.volume = 0.3;
+          audio.play();
+          markedOptions.push(i);
         }
-        markedOptions.push(i);
       }
     }
     choiceName.textContent = birdsDataEn[sectionIndex][i].name;
