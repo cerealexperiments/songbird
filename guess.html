@@ -12,9 +12,13 @@
     <title>SongBird</title>
 </head>
 <body>
+<div class="container">
     <header class="header">
         <div class="wrapper">
-            <h1 class="header__logo">SongBird</h1>
+            <div class="logo-container">
+                <h1 class="header__logo">SongBird</h1>
+                <p class="header__language">language</p>
+            </div>
             <nav class="navigation">
                 <a href="index.html" class="navigation__link">Home</a>
                 <a href="guess.html" class="navigation__link">Guess</a>
@@ -44,7 +48,8 @@
                         <div class="audio-player">
                             <div class="player">
                                 <img src="img/icons/play.svg" alt="play icon" class="player__playpause play">
-                                <input class="slider" type="range" min="1" max="100" value="0" id="current-question__slider">
+                                <input class="slider" type="range" min="1" max="100" value="0"
+                                       id="current-question__slider">
                             </div>
                             <div class="durations">
                                 <p class="duration duration_current">00:00</p>
@@ -53,7 +58,8 @@
                         </div>
                         <div class="volume">
                             <p class="volume__label">Volume</p>
-                            <input class="volume__slider slider" type="range" min="1" max="100" value="50" id="volume__slider">
+                            <input class="volume__slider slider" type="range" min="1" max="100" value="50"
+                                   id="volume__slider">
                         </div>
                     </div>
                 </div>
@@ -86,16 +92,23 @@
                         </li>
                     </ul>
                     <div class="choice">
-                        Listen to the audio above. Try to guess the bird.
                     </div>
                 </div>
 
                 <div class="next__container">
-                    <button disabled class="next">Next Level</button>
+                    <button disabled class="next">Next level</button>
                 </div>
             </div>
         </div>
     </section>
-    <script src="script.js"></script>
+    <footer class="footer">
+        <div class="wrapper">
+            <div class="footer__author">cerealexperiments</div>
+            <div class="footer__age">2022</div>
+            <div class="footer__course">RSSchool</div>
+        </div>
+    </footer>
+</div>
+    <script type="module" src="js/guess.js"></script>
 </body>
 </html>

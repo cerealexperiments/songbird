@@ -8,6 +8,11 @@ body {
     color: white;
     background-color: #222222;
 }
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 .wrapper {
     max-width: 1200px;
     margin: 0 auto;
@@ -23,8 +28,18 @@ body {
     justify-content: space-between;
 }
 
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
 .header__logo {
     font-size: 32px;
+}
+.header__language {
+    font-weight: 500;
 }
 .navigation {
     display: flex;
@@ -35,17 +50,26 @@ body {
     text-decoration: none;
 }
 .main {
-    height: 100vh;
+    display: flex;
+    padding-top: 100px;
 }
 .main__heading {
     padding-bottom: 25px;
 }
 .footer {
+    justify-self: end;
     padding-bottom: 20px;
+    margin-top: auto;
 }
 .footer .wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 40px;
+}
+
+.footer .wrapper a {
+    text-decoration: none;
+    color: white;
 }
 
 .game__score {
@@ -304,6 +328,10 @@ body {
 }
 
 @media (max-width: 520px) {
+    .header .wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
     .current-question {
         flex-direction: column;
     }

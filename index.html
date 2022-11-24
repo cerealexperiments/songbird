@@ -12,9 +12,13 @@
     <title>SongBird</title>
 </head>
 <body>
+<div class="container">
     <header class="header">
         <div class="wrapper">
-            <h1 class="header__logo">SongBird</h1>
+            <div class="logo-container">
+                <h1 class="header__logo">SongBird</h1>
+                <p class="header__language">EN</p>
+            </div>
             <nav class="navigation">
                 <a href="index.html" class="navigation__link">Home</a>
                 <a href="guess.html" class="navigation__link">Guess</a>
@@ -25,15 +29,17 @@
     <main class="main">
         <div class="wrapper">
             <h2 class="main__heading">Welcome to SongBird</h2>
-            <p class="main__text">SongBird is a game where you have to guess the birds singing.</p>
+            <p class="main__text">SongBird is a game where you have to guess the birds by their voices.</p>
         </div>
     </main>
     <footer class="footer">
         <div class="wrapper">
-            <div class="footer__author">cerealexperiments</div>
-            <div class="footer__age">2022</div>
-            <div class="footer__course">RSSchool</div>
+            <a href="https://github.com/cerealexperiments" class="footer__author">cerealexperiments</a>
+            <p class="footer__age">2022</p>
+            <a href="https://rs.school/" class="footer__course">RSSchool</a>
         </div>
     </footer>
+</div>
+    <script type="module" src="js/index.js"></script>
 </body>
 </html>
